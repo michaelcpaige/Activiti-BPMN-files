@@ -29,14 +29,14 @@
     <sequenceFlow id="flow2" sourceRef="waitstate1" targetRef="loadAsset1"></sequenceFlow>
     <userTask id="usertask1" name="Director Program Business management" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
       <extensionElements>
-        <activiti:formProperty id="formproperty_1666871981232_usertask1" name="Task description" type="longText" default="Please, revise the contract of the following url:   &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1666871981232_usertask1" name="Task description" type="longText" default="Please review this contract by following the link below:      &amp;#10;&amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
         <activiti:formProperty id="formproperty_1667214771555_usertask1" name="Comments" type="longText"></activiti:formProperty>
         <activiti:formProperty id="formproperty_1667214798569_usertask1" name="Valid?" type="metadataField" default="{&quot;metadatafield&quot;:{&quot;id&quot;:null,&quot;id_metadata_table&quot;:null,&quot;display_name&quot;:null,&quot;short_description&quot;:null,&quot;long_description&quot;:null,&quot;column_name&quot;:null,&quot;data_type&quot;:&quot;Enum&quot;,&quot;data_type_source&quot;:&quot;genericYesNoList&quot;,&quot;mandatory&quot;:0,&quot;indexed&quot;:0,&quot;stored&quot;:0,&quot;multiplicity&quot;:0,&quot;useInDaily&quot;:0,&quot;assettype_templatesource&quot;:null,&quot;related_id_metadatafield&quot;:null,&quot;thesaurus_source&quot;:null,&quot;maxNumChars&quot;:null},&quot;value&quot;:null}" vsn:qualifier="genericYesNoList" required="true"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <userTask id="usertask2" name="VP Programming &amp; Content" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
       <extensionElements>
-        <activiti:formProperty id="formproperty_1666872028025_usertask2" name="Task description" type="longText" default="Please, revise the contract of the following url:    &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1666872028025_usertask2" name="Task description" type="longText" default="Please review this contract by following the link below:      &amp;#10;&amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
         <activiti:formProperty id="formproperty_1667214830908_usertask2" name="Comments" type="longText"></activiti:formProperty>
         <activiti:formProperty id="formproperty_1667214840938_usertask2" name="Valid?" type="metadataField" default="{&quot;metadatafield&quot;:{&quot;id&quot;:null,&quot;id_metadata_table&quot;:null,&quot;display_name&quot;:null,&quot;short_description&quot;:null,&quot;long_description&quot;:null,&quot;column_name&quot;:null,&quot;data_type&quot;:&quot;Enum&quot;,&quot;data_type_source&quot;:&quot;genericYesNoList&quot;,&quot;mandatory&quot;:0,&quot;indexed&quot;:0,&quot;stored&quot;:0,&quot;multiplicity&quot;:0,&quot;useInDaily&quot;:0,&quot;assettype_templatesource&quot;:null,&quot;related_id_metadatafield&quot;:null,&quot;thesaurus_source&quot;:null,&quot;maxNumChars&quot;:null},&quot;value&quot;:null}" vsn:qualifier="genericYesNoList" required="true"></activiti:formProperty>
       </extensionElements>
@@ -48,8 +48,8 @@
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with housenumber #{asset_loadAsset1['id']} has been rejected by Director Program Business management" target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="Revise the contract of the following url:   &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}  &#10;   &#10;Read the comments below:   &#10;#{formproperty_1667214771555_usertask1}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with ID #{asset_loadAsset1['id']} has been rejected by Director Program Business management" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract has been rejected by the Director of Program Business management:&amp;#10;&amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}    &amp;#10;     &amp;#10;Note the comments below:     &amp;#10;&amp;#10;#{formproperty_1718730054365_usertask13}" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail2" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>
@@ -58,24 +58,21 @@
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with housenumber #{asset_loadAsset1['id']} has been rejected by VP Programming and Content" target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="Revise the contract of the following url:   &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}  &#10;   &#10;Read the comments below:   &#10;#{formproperty_1667214830908_usertask2}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with ID #{asset_loadAsset1['id']} has been rejected by VP Programming and Content" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract has been rejected by the VP of Programming and Content:&amp;#10;&amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}    &amp;#10;     &amp;#10;Note the comments below:     &amp;#10;&amp;#10;#{formproperty_1718730054365_usertask13}" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail3" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>
     <sequenceFlow id="flow16" sourceRef="exclusivegateway2" targetRef="sendEmail2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1667214798569_usertask1['value']['id'] == 50}]]></conditionExpression>
     </sequenceFlow>
-    <callActivity id="sendEmail5" name="Contract validated" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+    <callActivity id="sendEmail5" name="Contract approved" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
       <extensionElements>
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']} has been validated." target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']} has been validated.   
-&#10;   
-&#10;Please, find it in the url below:   
-&#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']} has been approved" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']} has been approved.&amp;#10;    &amp;#10;You may find the contract by following the link below:&amp;#10;    &amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail5" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>
@@ -98,9 +95,9 @@
     <sequenceFlow id="flow62" sourceRef="exclusivegateway1" targetRef="exclusivegateway11">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1667214840938_usertask2['value']['id'] == 49}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask10" name="Chief Operating Officer" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
+    <userTask id="usertask10" name="Chief Executive Officer" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
       <extensionElements>
-        <activiti:formProperty id="formproperty_1684933574451_usertask10" name="Task description" type="longText" default="Please, revise the contract of the following url:    &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1684933574451_usertask10" name="Task description" type="longText" default="Please review this contract by following the link below:      &amp;#10;&amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
         <activiti:formProperty id="formproperty_1684933661234_usertask10" name="Comments" type="longText"></activiti:formProperty>
         <activiti:formProperty id="formproperty_1684933669453_usertask10" name="Valid?" type="metadataField" default="{&quot;metadatafield&quot;:{&quot;id&quot;:null,&quot;id_metadata_table&quot;:null,&quot;display_name&quot;:null,&quot;short_description&quot;:null,&quot;long_description&quot;:null,&quot;column_name&quot;:null,&quot;data_type&quot;:&quot;Enum&quot;,&quot;data_type_source&quot;:&quot;genericYesNoList&quot;,&quot;mandatory&quot;:0,&quot;indexed&quot;:0,&quot;stored&quot;:0,&quot;multiplicity&quot;:0,&quot;useInDaily&quot;:0,&quot;assettype_templatesource&quot;:null,&quot;related_id_metadatafield&quot;:null,&quot;thesaurus_source&quot;:null,&quot;maxNumChars&quot;:null},&quot;value&quot;:null}" vsn:qualifier="genericYesNoList" required="true"></activiti:formProperty>
       </extensionElements>
@@ -118,8 +115,8 @@
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with housenumber #{asset_loadAsset1['id']} has been rejected by Chief Operating Officer" target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="Revise the contract of the following url:  &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']} &#10;  &#10;Read the comments below:  &#10;#{formproperty_1684933661234_usertask10}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with ID #{asset_loadAsset1['id']} has been rejected by Chief Executuve Officer" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract has been rejected by the Chief Executive Officer:&amp;#10;&amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}    &amp;#10;     &amp;#10;Note the comments below:     &amp;#10;&amp;#10;#{formproperty_1718730054365_usertask13}" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail6" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>
@@ -162,12 +159,12 @@
         <activiti:in sourceExpression="${0}" target="priority"></activiti:in>
         <activiti:out source="status" target="status_executeAction2" vsn:type="status"></activiti:out>
         <activiti:in sourceExpression="${1}" target="area"></activiti:in>
-        <activiti:in sourceExpression="${77}" target="agentId"></activiti:in>
+        <activiti:in sourceExpression="${76}" target="agentId"></activiti:in>
         <activiti:in sourceExpression="TVO_UpdateMetadataFieldInAcquiredContractCrea" target="agentName"></activiti:in>
         <activiti:in sourceExpression="vsn.MAM.MediaReference" target="inputTypeName"></activiti:in>
-        <activiti:in sourceExpression="&lt;Link&gt;&lt;action&gt;GET&lt;/action&gt;&lt;href&gt;https://v-vsnmam-p01.tvo.org/Register/RegistryWebService.svc/tasks/CF7850E0-AB63-4A4C-5391-F37309F4FAA9&lt;/href&gt;&lt;title&gt;TVO - Update contract status to blank&lt;/title&gt;&lt;rel&gt;self&lt;/rel&gt;&lt;/Link&gt;" target="userInput"></activiti:in>
-        <activiti:in sourceExpression="TVO - Update contract status to blank" target="publishedAgentDisplayName"></activiti:in>
-        <activiti:in target="assetId" vsn:type="assetId"></activiti:in>
+        <activiti:in sourceExpression="&lt;Link&gt;&lt;action&gt;GET&lt;/action&gt;&lt;href&gt;https://v-vsnmam-p01.tvo.org/Register/RegistryWebService.svc/tasks/BD048AAF-706A-CC24-E1A4-5471C25A9C32&lt;/href&gt;&lt;title&gt;TVO - Update contract status to Draft&lt;/title&gt;&lt;rel&gt;self&lt;/rel&gt;&lt;/Link&gt;" target="userInput"></activiti:in>
+        <activiti:in sourceExpression="TVO - Update contract status to Draft" target="publishedAgentDisplayName"></activiti:in>
+        <activiti:in sourceExpression="#{asset_loadAsset1['id']}" target="assetId" vsn:type="assetId"></activiti:in>
       </extensionElements>
     </callActivity>
     <endEvent id="endevent17" name="End"></endEvent>
@@ -181,11 +178,11 @@
         <activiti:in sourceExpression="${0}" target="priority"></activiti:in>
         <activiti:out source="status" target="status_executeAction3" vsn:type="status"></activiti:out>
         <activiti:in sourceExpression="${1}" target="area"></activiti:in>
-        <activiti:in sourceExpression="${77}" target="agentId"></activiti:in>
+        <activiti:in sourceExpression="${76}" target="agentId"></activiti:in>
         <activiti:in sourceExpression="TVO_UpdateMetadataFieldInAcquiredContractCrea" target="agentName"></activiti:in>
         <activiti:in sourceExpression="vsn.MAM.MediaReference" target="inputTypeName"></activiti:in>
-        <activiti:in sourceExpression="&lt;Link&gt;&lt;action&gt;GET&lt;/action&gt;&lt;href&gt;https://v-vsnmam-p01.tvo.org/Register/RegistryWebService.svc/tasks/CF7850E0-AB63-4A4C-5391-F37309F4FAA9&lt;/href&gt;&lt;title&gt;TVO - Update contract status to blank&lt;/title&gt;&lt;rel&gt;self&lt;/rel&gt;&lt;/Link&gt;" target="userInput"></activiti:in>
-        <activiti:in sourceExpression="TVO - Update contract status to blank" target="publishedAgentDisplayName"></activiti:in>
+        <activiti:in sourceExpression="&lt;Link&gt;&lt;action&gt;GET&lt;/action&gt;&lt;href&gt;https://v-vsnmam-p01.tvo.org/Register/RegistryWebService.svc/tasks/BD048AAF-706A-CC24-E1A4-5471C25A9C32&lt;/href&gt;&lt;title&gt;TVO - Update contract status to Draft&lt;/title&gt;&lt;rel&gt;self&lt;/rel&gt;&lt;/Link&gt;" target="userInput"></activiti:in>
+        <activiti:in sourceExpression="TVO - Update contract status to Draft" target="publishedAgentDisplayName"></activiti:in>
         <activiti:in sourceExpression="#{asset_loadAsset1['id']}" target="assetId" vsn:type="assetId"></activiti:in>
       </extensionElements>
     </callActivity>
@@ -208,7 +205,7 @@
         <activiti:in sourceExpression="vsn.MAM.MediaReference" target="inputTypeName"></activiti:in>
         <activiti:in sourceExpression="&lt;Link&gt;&lt;action&gt;GET&lt;/action&gt;&lt;href&gt;https://v-vsnmam-p01.tvo.org/Register/RegistryWebService.svc/tasks/C771D7EE-0F9C-6E91-A0C5-C02711C6FD5B&lt;/href&gt;&lt;title&gt;TVO - Update contract status to Pre-negotiations&lt;/title&gt;&lt;rel&gt;self&lt;/rel&gt;&lt;/Link&gt;" target="userInput"></activiti:in>
         <activiti:in sourceExpression="TVO - Update contract status to Pre-negotiations" target="publishedAgentDisplayName"></activiti:in>
-        <activiti:in sourceExpression="#{assetId_assetactionstartevent1}" target="assetId" vsn:type="assetId"></activiti:in>
+        <activiti:in sourceExpression="#{asset_loadAsset1['id']}" target="assetId" vsn:type="assetId"></activiti:in>
       </extensionElements>
     </callActivity>
     <sequenceFlow id="flow86" sourceRef="sendEmail5" targetRef="executeAction4"></sequenceFlow>
@@ -219,7 +216,7 @@
     </sequenceFlow>
     <userTask id="usertask12" name="Head of programming" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
       <extensionElements>
-        <activiti:formProperty id="formproperty_1718729630519_usertask12" name="Task description" type="longText" default="Please, revise the contract of the following url:     &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1718729630519_usertask12" name="Task description" type="longText" default="Please review this contract by following the link below:      &amp;#10;&amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
         <activiti:formProperty id="formproperty_1718729662131_usertask12" name="Comments" type="longText"></activiti:formProperty>
         <activiti:formProperty id="formproperty_1718729668318_usertask12" name="Valid?" type="metadataField" default="{&quot;metadatafield&quot;:{&quot;id&quot;:null,&quot;id_metadata_table&quot;:null,&quot;display_name&quot;:null,&quot;short_description&quot;:null,&quot;long_description&quot;:null,&quot;column_name&quot;:null,&quot;data_type&quot;:&quot;Enum&quot;,&quot;data_type_source&quot;:&quot;genericYesNoList&quot;,&quot;mandatory&quot;:0,&quot;indexed&quot;:0,&quot;stored&quot;:0,&quot;multiplicity&quot;:0,&quot;useInDaily&quot;:0,&quot;assettype_templatesource&quot;:null,&quot;related_id_metadatafield&quot;:null,&quot;thesaurus_source&quot;:null,&quot;maxNumChars&quot;:null},&quot;value&quot;:null}" vsn:qualifier="genericYesNoList"></activiti:formProperty>
       </extensionElements>
@@ -234,12 +231,8 @@
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with housenumber #{asset_loadAsset1['id']} has been rejected by Head of programming" target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="Revise the contract of the following url:     
-&#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}    
-&#10;     
-&#10;Read the comments below:     
-&#10;#{formproperty_1718729662131_usertask12}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with ID #{asset_loadAsset1['id']} has been rejected by Head of programming" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract has been rejected by the Head of Programming:&amp;#10;&amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}    &amp;#10;     &amp;#10;Note the comments below:     &amp;#10;&amp;#10;#{formproperty_1718730054365_usertask13}" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail9" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>
@@ -249,7 +242,7 @@
     <sequenceFlow id="flow99" sourceRef="sendEmail9" targetRef="executeAction3"></sequenceFlow>
     <userTask id="usertask13" name="Executive Producer : Digital" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
       <extensionElements>
-        <activiti:formProperty id="formproperty_1718730038364_usertask13" name="Task description" type="longText" default="Please, revise the contract of the following url:     &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1718730038364_usertask13" name="Task description" type="longText" default="Please review this contract by following the link below:      &amp;#10;&amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
         <activiti:formProperty id="formproperty_1718730054365_usertask13" name="Comments" type="longText"></activiti:formProperty>
         <activiti:formProperty id="formproperty_1718730061919_usertask13" name="Valid?" type="metadataField" default="{&quot;metadatafield&quot;:{&quot;id&quot;:null,&quot;id_metadata_table&quot;:null,&quot;display_name&quot;:null,&quot;short_description&quot;:null,&quot;long_description&quot;:null,&quot;column_name&quot;:null,&quot;data_type&quot;:&quot;Enum&quot;,&quot;data_type_source&quot;:&quot;genericYesNoList&quot;,&quot;mandatory&quot;:0,&quot;indexed&quot;:0,&quot;stored&quot;:0,&quot;multiplicity&quot;:0,&quot;useInDaily&quot;:0,&quot;assettype_templatesource&quot;:null,&quot;related_id_metadatafield&quot;:null,&quot;thesaurus_source&quot;:null,&quot;maxNumChars&quot;:null},&quot;value&quot;:null}" vsn:qualifier="genericYesNoList"></activiti:formProperty>
       </extensionElements>
@@ -261,8 +254,8 @@
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with housenumber #{asset_loadAsset1['id']} has been rejected by Executive Producer :Digital" target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="Revise the contract of the following url:     &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}    &#10;     &#10;Read the comments below:     &#10;#{formproperty_1718730054365_usertask13}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with ID #{asset_loadAsset1['id']} has been rejected by Executive Producer :Digital" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract has been rejected by the Executive Producer, Digital:&amp;#10;&amp;#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}    &amp;#10;     &amp;#10;Note the comments below:     &amp;#10;&amp;#10;#{formproperty_1718730054365_usertask13}" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail10" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>
@@ -273,57 +266,57 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1718730061919_usertask13['value']['id'] == 49}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow103" sourceRef="sendEmail10" targetRef="executeAction2"></sequenceFlow>
-    <callActivity id="sendEmail11" name="Contract approve" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+    <callActivity id="sendEmail11" name="Contract approval" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
       <extensionElements>
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-approvers@tvo.org" target="recipients" vsn:type="string"></activiti:in>
         <activiti:in sourceExpression="Head of programming task - contract #{asset_loadAsset1['title']}  contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. " target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. &amp;#10;&amp;#10;Access VSN Explorer via myTVO &gt; myQuicklinks &gt; VSN Explorer or via this link:&amp;#10;&amp;#10;https://v-vsnmam-p01.tvo.org/explorerservice/webpages/" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail11" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>
     <sequenceFlow id="flow104" sourceRef="sendEmail11" targetRef="usertask12"></sequenceFlow>
-    <callActivity id="sendEmail12" name="Contract approve" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+    <callActivity id="sendEmail12" name="Contract approval" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
       <extensionElements>
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-approvers@tvo.org" target="recipients" vsn:type="string"></activiti:in>
         <activiti:in sourceExpression="Director Program Business management Task - contract #{asset_loadAsset1['title']}   contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. " target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. &amp;#10;&amp;#10;Access VSN Explorer via myTVO &gt; myQuicklinks &gt; VSN Explorer or via this link:&amp;#10;&amp;#10;https://v-vsnmam-p01.tvo.org/explorerservice/webpages/" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail12" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>
     <sequenceFlow id="flow105" sourceRef="sendEmail12" targetRef="usertask1"></sequenceFlow>
-    <callActivity id="sendEmail13" name="Contract approve" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+    <callActivity id="sendEmail13" name="Contract approval" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
       <extensionElements>
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-approvers@tvo.org" target="recipients" vsn:type="string"></activiti:in>
         <activiti:in sourceExpression="Executive Producer : Digital task - contract #{asset_loadAsset1['title']}  contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. " target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. &amp;#10;&amp;#10;Access VSN Explorer via myTVO &gt; myQuicklinks &gt; VSN Explorer or via this link:&amp;#10;&amp;#10;https://v-vsnmam-p01.tvo.org/explorerservice/webpages/" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail13" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>
     <sequenceFlow id="flow106" sourceRef="sendEmail13" targetRef="usertask13"></sequenceFlow>
-    <callActivity id="sendEmail14" name="Contract approve" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+    <callActivity id="sendEmail14" name="Contract approval" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
       <extensionElements>
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-approvers@tvo.org" target="recipients" vsn:type="string"></activiti:in>
         <activiti:in sourceExpression="VP Programming &amp; Content Task - contract #{asset_loadAsset1['title']}   contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. " target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. &amp;#10;&amp;#10;Access VSN Explorer via myTVO &gt; myQuicklinks &gt; VSN Explorer or via this link:&amp;#10;&amp;#10;https://v-vsnmam-p01.tvo.org/explorerservice/webpages/" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail14" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>
     <sequenceFlow id="flow107" sourceRef="sendEmail14" targetRef="usertask2"></sequenceFlow>
-    <callActivity id="sendEmail15" name="Contract approve" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+    <callActivity id="sendEmail15" name="Contract approval" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
       <extensionElements>
         <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
         <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
         <activiti:in sourceExpression="vsn-notice-approvers@tvo.org" target="recipients" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="Chief Operating Officer Task - contract #{asset_loadAsset1['title']}   contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
-        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. " target="body" vsn:type="longText"></activiti:in>
+        <activiti:in sourceExpression="Chief Executive Officer Task - contract #{asset_loadAsset1['title']}   contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. &amp;#10;&amp;#10;Access VSN Explorer via myTVO &gt; myQuicklinks &gt; VSN Explorer or via this link:&amp;#10;&amp;#10;https://v-vsnmam-p01.tvo.org/explorerservice/webpages/" target="body" vsn:type="longText"></activiti:in>
         <activiti:out source="status" target="status_sendEmail15" vsn:type="status"></activiti:out>
       </extensionElements>
     </callActivity>

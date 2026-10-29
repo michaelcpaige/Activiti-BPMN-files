@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:vsn="http://www.vsn-tv.com/bpmn" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.vsn-tv.com/bp">
+  <process id="ContractValidationDraft" name="ContractValidationDraft" isExecutable="true">
+    <startEvent id="assetactionstartevent1" name="Asset Action Start" activiti:formKey="com.vsn.bp.editor.diagram.task.AssetActionStartConstructor" vsn:helpFilePath="en/assetActionStart.html">
+      <extensionElements>
+        <activiti:formProperty id="assetId_assetactionstartevent1" name="Asset ID" type="assetId"></activiti:formProperty>
+        <activiti:executionListener event="end" class="com.vsn.activiti.process.listener.SetAssetBasedBpTitleListener"></activiti:executionListener>
+      </extensionElements>
+    </startEvent>
+    <intermediateCatchEvent id="waitstate1" name="Wait State">
+      <timerEventDefinition>
+        <timeDuration>PT0S</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow1" sourceRef="assetactionstartevent1" targetRef="waitstate1"></sequenceFlow>
+    <callActivity id="loadAsset1" name="Load Asset" calledElement="request-mam" activiti:extensionId="com.vsn.bp.editor.diagram.task.LoadAssetTaskConstructor" vsn:helpFilePath="en/loadAssetTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression="vsnadmins" target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="#{loadAssetDelegate}" target="mamRequester"></activiti:in>
+        <activiti:in sourceExpression="${false}" target="handleError"></activiti:in>
+        <activiti:out source="status" target="status_loadAsset1" vsn:type="status"></activiti:out>
+        <activiti:in sourceExpression="contracts" target="classGuid" vsn:type="assetClass"></activiti:in>
+        <activiti:in sourceExpression="#{assetId_assetactionstartevent1}" target="assetId" vsn:type="assetId"></activiti:in>
+        <activiti:out source="asset" target="asset_loadAsset1" vsn:type="asset"></activiti:out>
+        <activiti:out source="status" target="status_loadAsset1" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow2" sourceRef="waitstate1" targetRef="loadAsset1"></sequenceFlow>
+    <userTask id="usertask1" name="Director Program Business management" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
+      <extensionElements>
+        <activiti:formProperty id="formproperty_1666871981232_usertask1" name="Task description" type="longText" default="Please, revise the contract of the following url:   &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1667214771555_usertask1" name="Comments" type="longText"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1667214798569_usertask1" name="Valid?" type="metadataField" default="{&quot;metadatafield&quot;:{&quot;id&quot;:null,&quot;id_metadata_table&quot;:null,&quot;display_name&quot;:null,&quot;short_description&quot;:null,&quot;long_description&quot;:null,&quot;column_name&quot;:null,&quot;data_type&quot;:&quot;Enum&quot;,&quot;data_type_source&quot;:&quot;genericYesNoList&quot;,&quot;mandatory&quot;:0,&quot;indexed&quot;:0,&quot;stored&quot;:0,&quot;multiplicity&quot;:0,&quot;useInDaily&quot;:0,&quot;assettype_templatesource&quot;:null,&quot;related_id_metadatafield&quot;:null,&quot;thesaurus_source&quot;:null,&quot;maxNumChars&quot;:null},&quot;value&quot;:null}" vsn:qualifier="genericYesNoList" required="true"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask2" name="VP Programming &amp; Content" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
+      <extensionElements>
+        <activiti:formProperty id="formproperty_1666872028025_usertask2" name="Task description" type="longText" default="Please, revise the contract of the following url:    &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1667214830908_usertask2" name="Comments" type="longText"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1667214840938_usertask2" name="Valid?" type="metadataField" default="{&quot;metadatafield&quot;:{&quot;id&quot;:null,&quot;id_metadata_table&quot;:null,&quot;display_name&quot;:null,&quot;short_description&quot;:null,&quot;long_description&quot;:null,&quot;column_name&quot;:null,&quot;data_type&quot;:&quot;Enum&quot;,&quot;data_type_source&quot;:&quot;genericYesNoList&quot;,&quot;mandatory&quot;:0,&quot;indexed&quot;:0,&quot;stored&quot;:0,&quot;multiplicity&quot;:0,&quot;useInDaily&quot;:0,&quot;assettype_templatesource&quot;:null,&quot;related_id_metadatafield&quot;:null,&quot;thesaurus_source&quot;:null,&quot;maxNumChars&quot;:null},&quot;value&quot;:null}" vsn:qualifier="genericYesNoList" required="true"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <callActivity id="sendEmail2" name="Contract rejected" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with housenumber #{asset_loadAsset1['id']} has been rejected by Director Program Business management" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="Revise the contract of the following url:   &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}  &#10;   &#10;Read the comments below:   &#10;#{formproperty_1667214771555_usertask1}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail2" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <callActivity id="sendEmail3" name="Contract rejected" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with housenumber #{asset_loadAsset1['id']} has been rejected by VP Programming and Content" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="Revise the contract of the following url:   &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}  &#10;   &#10;Read the comments below:   &#10;#{formproperty_1667214830908_usertask2}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail3" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow16" sourceRef="exclusivegateway2" targetRef="sendEmail2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1667214798569_usertask1['value']['id'] == 50}]]></conditionExpression>
+    </sequenceFlow>
+    <callActivity id="sendEmail5" name="Contract validated" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']} has been validated." target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']} has been validated.   
+&#10;   
+&#10;Please, find it in the url below:   
+&#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail5" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <exclusiveGateway id="exclusivegateway8" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow48" name="Adults" sourceRef="exclusivegateway8" targetRef="sendEmail11">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asset_loadAsset1['metadata']['acquisitioncontracttable']['departmentfield']['value']['id'] == 226}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow49" name="Children" sourceRef="exclusivegateway8" targetRef="sendEmail11">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asset_loadAsset1['metadata']['acquisitioncontracttable']['departmentfield']['value']['id'] == 225}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow57" sourceRef="usertask1" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow58" sourceRef="exclusivegateway2" targetRef="sendEmail14">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1667214798569_usertask1['value']['id'] == 49}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow59" sourceRef="usertask2" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow60" sourceRef="exclusivegateway1" targetRef="sendEmail3">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1667214840938_usertask2['value']['id'] == 50}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway11" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow62" sourceRef="exclusivegateway1" targetRef="exclusivegateway11">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1667214840938_usertask2['value']['id'] == 49}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="usertask10" name="Chief Operating Officer" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
+      <extensionElements>
+        <activiti:formProperty id="formproperty_1684933574451_usertask10" name="Task description" type="longText" default="Please, revise the contract of the following url:    &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1684933661234_usertask10" name="Comments" type="longText"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1684933669453_usertask10" name="Valid?" type="metadataField" default="{&quot;metadatafield&quot;:{&quot;id&quot;:null,&quot;id_metadata_table&quot;:null,&quot;display_name&quot;:null,&quot;short_description&quot;:null,&quot;long_description&quot;:null,&quot;column_name&quot;:null,&quot;data_type&quot;:&quot;Enum&quot;,&quot;data_type_source&quot;:&quot;genericYesNoList&quot;,&quot;mandatory&quot;:0,&quot;indexed&quot;:0,&quot;stored&quot;:0,&quot;multiplicity&quot;:0,&quot;useInDaily&quot;:0,&quot;assettype_templatesource&quot;:null,&quot;related_id_metadatafield&quot;:null,&quot;thesaurus_source&quot;:null,&quot;maxNumChars&quot;:null},&quot;value&quot;:null}" vsn:qualifier="genericYesNoList" required="true"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow63" sourceRef="exclusivegateway11" targetRef="sendEmail15">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asset_loadAsset1['metadata']['acquisitioncontracttable']['requiresExtraApprovalField']['value']['id'] == 49}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway12" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow65" sourceRef="usertask10" targetRef="exclusivegateway12"></sequenceFlow>
+    <sequenceFlow id="flow67" sourceRef="exclusivegateway12" targetRef="sendEmail5">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1684933669453_usertask10['value']['id'] == 49}]]></conditionExpression>
+    </sequenceFlow>
+    <callActivity id="sendEmail6" name="Contract rejected" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with housenumber #{asset_loadAsset1['id']} has been rejected by Chief Operating Officer" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="Revise the contract of the following url:  &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']} &#10;  &#10;Read the comments below:  &#10;#{formproperty_1684933661234_usertask10}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail6" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow69" sourceRef="exclusivegateway12" targetRef="sendEmail6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1684933669453_usertask10['value']['id'] == 50}]]></conditionExpression>
+    </sequenceFlow>
+    <dataObject id="registryGuidKey" name="Registry Guid Key" itemSubjectRef="xsd:string">
+      <extensionElements>
+        <activiti:value>eea70e62-5e34-4d48-8dc0-3f6fa51d9771</activiti:value>
+      </extensionElements>
+    </dataObject>
+    <callActivity id="executeAction1" name="Contract status = Draft" calledElement="execute-workflow" activiti:extensionId="com.vsn.bp.editor.diagram.task.ExecuteActionTaskConstructor" vsn:helpFilePath="en/executeActionTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="#{executeActionWorkflowDataGetter}" target="workflowDataGetter"></activiti:in>
+        <activiti:in source="workflowId" target="workflowId"></activiti:in>
+        <activiti:in sourceExpression="${0}" target="priority"></activiti:in>
+        <activiti:out source="status" target="status_executeAction1" vsn:type="status"></activiti:out>
+        <activiti:in sourceExpression="${1}" target="area"></activiti:in>
+        <activiti:in sourceExpression="${76}" target="agentId"></activiti:in>
+        <activiti:in sourceExpression="TVO_UpdateMetadataFieldInAcquiredContractCrea" target="agentName"></activiti:in>
+        <activiti:in sourceExpression="vsn.MAM.MediaReference" target="inputTypeName"></activiti:in>
+        <activiti:in sourceExpression="&lt;Link&gt;&lt;action&gt;GET&lt;/action&gt;&lt;href&gt;https://v-vsnmam-p01.tvo.org/Register/RegistryWebService.svc/tasks/BD048AAF-706A-CC24-E1A4-5471C25A9C32&lt;/href&gt;&lt;title&gt;TVO - Update contract status to Draft&lt;/title&gt;&lt;rel&gt;self&lt;/rel&gt;&lt;/Link&gt;" target="userInput"></activiti:in>
+        <activiti:in sourceExpression="TVO - Update contract status to Draft" target="publishedAgentDisplayName"></activiti:in>
+        <activiti:in sourceExpression="#{asset_loadAsset1['id']}" target="assetId" vsn:type="assetId"></activiti:in>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow75" sourceRef="loadAsset1" targetRef="executeAction1"></sequenceFlow>
+    <sequenceFlow id="flow76" sourceRef="executeAction1" targetRef="exclusivegateway8"></sequenceFlow>
+    <sequenceFlow id="flow77" name="Digital" sourceRef="exclusivegateway8" targetRef="sendEmail13">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asset_loadAsset1['metadata']['acquisitioncontracttable']['departmentfield']['value']['id'] == 227}]]></conditionExpression>
+    </sequenceFlow>
+    <callActivity id="executeAction2" name="Contract status = Blank" calledElement="execute-workflow" activiti:extensionId="com.vsn.bp.editor.diagram.task.ExecuteActionTaskConstructor" vsn:helpFilePath="en/executeActionTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression="vsnadmins" target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="#{executeActionWorkflowDataGetter}" target="workflowDataGetter"></activiti:in>
+        <activiti:in source="workflowId" target="workflowId"></activiti:in>
+        <activiti:in sourceExpression="${0}" target="priority"></activiti:in>
+        <activiti:out source="status" target="status_executeAction2" vsn:type="status"></activiti:out>
+        <activiti:in sourceExpression="${1}" target="area"></activiti:in>
+        <activiti:in sourceExpression="${77}" target="agentId"></activiti:in>
+        <activiti:in sourceExpression="TVO_UpdateMetadataFieldInAcquiredContractCrea" target="agentName"></activiti:in>
+        <activiti:in sourceExpression="vsn.MAM.MediaReference" target="inputTypeName"></activiti:in>
+        <activiti:in sourceExpression="&lt;Link&gt;&lt;action&gt;GET&lt;/action&gt;&lt;href&gt;https://v-vsnmam-p01.tvo.org/Register/RegistryWebService.svc/tasks/CF7850E0-AB63-4A4C-5391-F37309F4FAA9&lt;/href&gt;&lt;title&gt;TVO - Update contract status to blank&lt;/title&gt;&lt;rel&gt;self&lt;/rel&gt;&lt;/Link&gt;" target="userInput"></activiti:in>
+        <activiti:in sourceExpression="TVO - Update contract status to blank" target="publishedAgentDisplayName"></activiti:in>
+        <activiti:in target="assetId" vsn:type="assetId"></activiti:in>
+      </extensionElements>
+    </callActivity>
+    <endEvent id="endevent17" name="End"></endEvent>
+    <sequenceFlow id="flow79" sourceRef="executeAction2" targetRef="endevent17"></sequenceFlow>
+    <callActivity id="executeAction3" name="Contract status = Blank" calledElement="execute-workflow" activiti:extensionId="com.vsn.bp.editor.diagram.task.ExecuteActionTaskConstructor" vsn:helpFilePath="en/executeActionTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="#{executeActionWorkflowDataGetter}" target="workflowDataGetter"></activiti:in>
+        <activiti:in source="workflowId" target="workflowId"></activiti:in>
+        <activiti:in sourceExpression="${0}" target="priority"></activiti:in>
+        <activiti:out source="status" target="status_executeAction3" vsn:type="status"></activiti:out>
+        <activiti:in sourceExpression="${1}" target="area"></activiti:in>
+        <activiti:in sourceExpression="${77}" target="agentId"></activiti:in>
+        <activiti:in sourceExpression="TVO_UpdateMetadataFieldInAcquiredContractCrea" target="agentName"></activiti:in>
+        <activiti:in sourceExpression="vsn.MAM.MediaReference" target="inputTypeName"></activiti:in>
+        <activiti:in sourceExpression="&lt;Link&gt;&lt;action&gt;GET&lt;/action&gt;&lt;href&gt;https://v-vsnmam-p01.tvo.org/Register/RegistryWebService.svc/tasks/CF7850E0-AB63-4A4C-5391-F37309F4FAA9&lt;/href&gt;&lt;title&gt;TVO - Update contract status to blank&lt;/title&gt;&lt;rel&gt;self&lt;/rel&gt;&lt;/Link&gt;" target="userInput"></activiti:in>
+        <activiti:in sourceExpression="TVO - Update contract status to blank" target="publishedAgentDisplayName"></activiti:in>
+        <activiti:in sourceExpression="#{asset_loadAsset1['id']}" target="assetId" vsn:type="assetId"></activiti:in>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow80" sourceRef="sendEmail2" targetRef="executeAction3"></sequenceFlow>
+    <endEvent id="endevent18" name="End"></endEvent>
+    <sequenceFlow id="flow82" sourceRef="executeAction3" targetRef="endevent18"></sequenceFlow>
+    <sequenceFlow id="flow83" sourceRef="sendEmail3" targetRef="executeAction3"></sequenceFlow>
+    <sequenceFlow id="flow85" sourceRef="sendEmail6" targetRef="executeAction3"></sequenceFlow>
+    <callActivity id="executeAction4" name="Contract status = Pre-negotiations" calledElement="execute-workflow" activiti:extensionId="com.vsn.bp.editor.diagram.task.ExecuteActionTaskConstructor" vsn:helpFilePath="en/executeActionTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression="vsnadmins" target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="#{executeActionWorkflowDataGetter}" target="workflowDataGetter"></activiti:in>
+        <activiti:in source="workflowId" target="workflowId"></activiti:in>
+        <activiti:in sourceExpression="${0}" target="priority"></activiti:in>
+        <activiti:out source="status" target="status_executeAction4" vsn:type="status"></activiti:out>
+        <activiti:in sourceExpression="${1}" target="area"></activiti:in>
+        <activiti:in sourceExpression="${218}" target="agentId"></activiti:in>
+        <activiti:in sourceExpression="TVO_UpdateMetadataFieldInAcquiredContractCrea" target="agentName"></activiti:in>
+        <activiti:in sourceExpression="vsn.MAM.MediaReference" target="inputTypeName"></activiti:in>
+        <activiti:in sourceExpression="&lt;Link&gt;&lt;action&gt;GET&lt;/action&gt;&lt;href&gt;https://v-vsnmam-p01.tvo.org/Register/RegistryWebService.svc/tasks/C771D7EE-0F9C-6E91-A0C5-C02711C6FD5B&lt;/href&gt;&lt;title&gt;TVO - Update contract status to Pre-negotiations&lt;/title&gt;&lt;rel&gt;self&lt;/rel&gt;&lt;/Link&gt;" target="userInput"></activiti:in>
+        <activiti:in sourceExpression="TVO - Update contract status to Pre-negotiations" target="publishedAgentDisplayName"></activiti:in>
+        <activiti:in sourceExpression="#{assetId_assetactionstartevent1}" target="assetId" vsn:type="assetId"></activiti:in>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow86" sourceRef="sendEmail5" targetRef="executeAction4"></sequenceFlow>
+    <endEvent id="endevent19" name="End"></endEvent>
+    <sequenceFlow id="flow87" sourceRef="executeAction4" targetRef="endevent19"></sequenceFlow>
+    <sequenceFlow id="flow88" sourceRef="exclusivegateway11" targetRef="sendEmail5">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asset_loadAsset1['metadata']['acquisitioncontracttable']['requiresExtraApprovalField']['value']['id'] == 50}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="usertask12" name="Head of programming" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
+      <extensionElements>
+        <activiti:formProperty id="formproperty_1718729630519_usertask12" name="Task description" type="longText" default="Please, revise the contract of the following url:     &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1718729662131_usertask12" name="Comments" type="longText"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1718729668318_usertask12" name="Valid?" type="metadataField" default="{&quot;metadatafield&quot;:{&quot;id&quot;:null,&quot;id_metadata_table&quot;:null,&quot;display_name&quot;:null,&quot;short_description&quot;:null,&quot;long_description&quot;:null,&quot;column_name&quot;:null,&quot;data_type&quot;:&quot;Enum&quot;,&quot;data_type_source&quot;:&quot;genericYesNoList&quot;,&quot;mandatory&quot;:0,&quot;indexed&quot;:0,&quot;stored&quot;:0,&quot;multiplicity&quot;:0,&quot;useInDaily&quot;:0,&quot;assettype_templatesource&quot;:null,&quot;related_id_metadatafield&quot;:null,&quot;thesaurus_source&quot;:null,&quot;maxNumChars&quot;:null},&quot;value&quot;:null}" vsn:qualifier="genericYesNoList"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway14" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow93" sourceRef="usertask12" targetRef="exclusivegateway14"></sequenceFlow>
+    <sequenceFlow id="flow94" sourceRef="exclusivegateway14" targetRef="sendEmail12">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1718729668318_usertask12['value']['id'] == 49}]]></conditionExpression>
+    </sequenceFlow>
+    <callActivity id="sendEmail9" name="Contract rejected" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with housenumber #{asset_loadAsset1['id']} has been rejected by Head of programming" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="Revise the contract of the following url:     
+&#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}    
+&#10;     
+&#10;Read the comments below:     
+&#10;#{formproperty_1718729662131_usertask12}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail9" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow98" sourceRef="exclusivegateway14" targetRef="sendEmail9">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1718729668318_usertask12['value']['id'] == 50}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow99" sourceRef="sendEmail9" targetRef="executeAction3"></sequenceFlow>
+    <userTask id="usertask13" name="Executive Producer : Digital" activiti:candidateGroups="vsnadmins,vsnapprover" activiti:formKey="VSNBPEDITOR_GENERAL" activiti:priority="0">
+      <extensionElements>
+        <activiti:formProperty id="formproperty_1718730038364_usertask13" name="Task description" type="longText" default="Please, revise the contract of the following url:     &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1718730054365_usertask13" name="Comments" type="longText"></activiti:formProperty>
+        <activiti:formProperty id="formproperty_1718730061919_usertask13" name="Valid?" type="metadataField" default="{&quot;metadatafield&quot;:{&quot;id&quot;:null,&quot;id_metadata_table&quot;:null,&quot;display_name&quot;:null,&quot;short_description&quot;:null,&quot;long_description&quot;:null,&quot;column_name&quot;:null,&quot;data_type&quot;:&quot;Enum&quot;,&quot;data_type_source&quot;:&quot;genericYesNoList&quot;,&quot;mandatory&quot;:0,&quot;indexed&quot;:0,&quot;stored&quot;:0,&quot;multiplicity&quot;:0,&quot;useInDaily&quot;:0,&quot;assettype_templatesource&quot;:null,&quot;related_id_metadatafield&quot;:null,&quot;thesaurus_source&quot;:null,&quot;maxNumChars&quot;:null},&quot;value&quot;:null}" vsn:qualifier="genericYesNoList"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway16" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow100" sourceRef="usertask13" targetRef="exclusivegateway16"></sequenceFlow>
+    <callActivity id="sendEmail10" name="Contract rejected" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" vsnadmins" target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-acquisitions@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="The contract #{asset_loadAsset1['title']}  with housenumber #{asset_loadAsset1['id']} has been rejected by Executive Producer :Digital" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="Revise the contract of the following url:     &#10;#{asset_loadAsset1['metadata']['acquisitioncontracttable']['crealinkfield']['value']}    &#10;     &#10;Read the comments below:     &#10;#{formproperty_1718730054365_usertask13}" target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail10" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow101" sourceRef="exclusivegateway16" targetRef="sendEmail10">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1718730061919_usertask13['value']['id'] == 50}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow102" sourceRef="exclusivegateway16" targetRef="usertask1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${formproperty_1718730061919_usertask13['value']['id'] == 49}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow103" sourceRef="sendEmail10" targetRef="executeAction2"></sequenceFlow>
+    <callActivity id="sendEmail11" name="Contract approve" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-approvers@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="Head of programming task - contract #{asset_loadAsset1['title']}  contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. " target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail11" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow104" sourceRef="sendEmail11" targetRef="usertask12"></sequenceFlow>
+    <callActivity id="sendEmail12" name="Contract approve" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-approvers@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="Director Program Business management Task - contract #{asset_loadAsset1['title']}   contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. " target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail12" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow105" sourceRef="sendEmail12" targetRef="usertask1"></sequenceFlow>
+    <callActivity id="sendEmail13" name="Contract approve" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-approvers@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="Executive Producer : Digital task - contract #{asset_loadAsset1['title']}  contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. " target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail13" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow106" sourceRef="sendEmail13" targetRef="usertask13"></sequenceFlow>
+    <callActivity id="sendEmail14" name="Contract approve" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-approvers@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="VP Programming &amp; Content Task - contract #{asset_loadAsset1['title']}   contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. " target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail14" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow107" sourceRef="sendEmail14" targetRef="usertask2"></sequenceFlow>
+    <callActivity id="sendEmail15" name="Contract approve" calledElement="send-email" activiti:extensionId="com.vsn.bp.editor.diagram.task.SendEmailTaskConstructor" vsn:helpFilePath="en/sendEmailTask.html">
+      <extensionElements>
+        <activiti:in sourceExpression="${execution.getVariable(&quot;bpInstanceTitle&quot;)} - ${execution.getCurrentActivityName()}" target="bpInstanceTitle"></activiti:in>
+        <activiti:in sourceExpression=" " target="candidateGroups"></activiti:in>
+        <activiti:in sourceExpression="vsn-notice-approvers@tvo.org" target="recipients" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="Chief Operating Officer Task - contract #{asset_loadAsset1['title']}   contract Number #{asset_loadAsset1['metadata']['acquisitioncontracttable']['contractNumber']['value']}" target="subject" vsn:type="string"></activiti:in>
+        <activiti:in sourceExpression="This contract is ready for your approval.  Please login to VSN Explorer and click on the &quot;BPM&quot; tab where you will see the approval task.  Click on the task name and follow the instructions. " target="body" vsn:type="longText"></activiti:in>
+        <activiti:out source="status" target="status_sendEmail15" vsn:type="status"></activiti:out>
+      </extensionElements>
+    </callActivity>
+    <sequenceFlow id="flow108" sourceRef="sendEmail15" targetRef="usertask10"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_ContractValidationDraft">
+    <bpmndi:BPMNPlane bpmnElement="ContractValidationDraft" id="BPMNPlane_ContractValidationDraft">
+      <bpmndi:BPMNShape bpmnElement="assetactionstartevent1" id="BPMNShape_assetactionstartevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="1.0" y="290.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="waitstate1" id="BPMNShape_waitstate1">
+        <omgdc:Bounds height="35.0" width="35.0" x="81.0" y="290.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="loadAsset1" id="BPMNShape_loadAsset1">
+        <omgdc:Bounds height="55.0" width="105.0" x="161.0" y="280.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="69.0" width="105.0" x="768.0" y="280.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="63.0" width="105.0" x="948.0" y="283.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="1087.0" y="294.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="888.0" y="294.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail2" id="BPMNShape_sendEmail2">
+        <omgdc:Bounds height="55.0" width="105.0" x="856.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail3" id="BPMNShape_sendEmail3">
+        <omgdc:Bounds height="55.0" width="105.0" x="1055.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail5" id="BPMNShape_sendEmail5">
+        <omgdc:Bounds height="55.0" width="105.0" x="1478.0" y="285.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway8" id="BPMNShape_exclusivegateway8">
+        <omgdc:Bounds height="40.0" width="40.0" x="458.0" y="287.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway11" id="BPMNShape_exclusivegateway11">
+        <omgdc:Bounds height="40.0" width="40.0" x="1172.0" y="292.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask10" id="BPMNShape_usertask10">
+        <omgdc:Bounds height="62.0" width="105.0" x="1258.0" y="280.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway12" id="BPMNShape_exclusivegateway12">
+        <omgdc:Bounds height="40.0" width="40.0" x="1408.0" y="292.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail6" id="BPMNShape_sendEmail6">
+        <omgdc:Bounds height="55.0" width="105.0" x="1376.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="executeAction1" id="BPMNShape_executeAction1">
+        <omgdc:Bounds height="60.0" width="105.0" x="309.0" y="278.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="executeAction2" id="BPMNShape_executeAction2">
+        <omgdc:Bounds height="61.0" width="105.0" x="563.0" y="447.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent17" id="BPMNShape_endevent17">
+        <omgdc:Bounds height="35.0" width="35.0" x="500.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="executeAction3" id="BPMNShape_executeAction3">
+        <omgdc:Bounds height="57.0" width="105.0" x="856.0" y="128.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent18" id="BPMNShape_endevent18">
+        <omgdc:Bounds height="35.0" width="35.0" x="891.0" y="60.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="executeAction4" id="BPMNShape_executeAction4">
+        <omgdc:Bounds height="63.0" width="105.0" x="1598.0" y="283.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent19" id="BPMNShape_endevent19">
+        <omgdc:Bounds height="35.0" width="35.0" x="1633.0" y="367.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask12" id="BPMNShape_usertask12">
+        <omgdc:Bounds height="55.0" width="105.0" x="510.0" y="126.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway14" id="BPMNShape_exclusivegateway14">
+        <omgdc:Bounds height="40.0" width="40.0" x="526.0" y="35.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail9" id="BPMNShape_sendEmail9">
+        <omgdc:Bounds height="55.0" width="105.0" x="636.0" y="28.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask13" id="BPMNShape_usertask13">
+        <omgdc:Bounds height="55.0" width="105.0" x="300.0" y="450.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway16" id="BPMNShape_exclusivegateway16">
+        <omgdc:Bounds height="40.0" width="40.0" x="332.0" y="560.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail10" id="BPMNShape_sendEmail10">
+        <omgdc:Bounds height="55.0" width="105.0" x="403.0" y="542.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail11" id="BPMNShape_sendEmail11">
+        <omgdc:Bounds height="55.0" width="105.0" x="510.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail12" id="BPMNShape_sendEmail12">
+        <omgdc:Bounds height="55.0" width="105.0" x="667.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail13" id="BPMNShape_sendEmail13">
+        <omgdc:Bounds height="55.0" width="105.0" x="415.0" y="367.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail14" id="BPMNShape_sendEmail14">
+        <omgdc:Bounds height="55.0" width="105.0" x="948.0" y="380.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendEmail15" id="BPMNShape_sendEmail15">
+        <omgdc:Bounds height="55.0" width="105.0" x="1258.0" y="200.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="36.0" y="307.0"></omgdi:waypoint>
+        <omgdi:waypoint x="81.0" y="307.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="116.0" y="307.0"></omgdi:waypoint>
+        <omgdi:waypoint x="161.0" y="307.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="908.0" y="294.0"></omgdi:waypoint>
+        <omgdi:waypoint x="908.0" y="255.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48">
+        <omgdi:waypoint x="478.0" y="287.0"></omgdi:waypoint>
+        <omgdi:waypoint x="478.0" y="271.0"></omgdi:waypoint>
+        <omgdi:waypoint x="478.0" y="228.0"></omgdi:waypoint>
+        <omgdi:waypoint x="510.0" y="227.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="31.0" x="440.0" y="266.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49">
+        <omgdi:waypoint x="498.0" y="307.0"></omgdi:waypoint>
+        <omgdi:waypoint x="562.0" y="306.0"></omgdi:waypoint>
+        <omgdi:waypoint x="562.0" y="255.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="39.0" x="497.0" y="288.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow57" id="BPMNEdge_flow57">
+        <omgdi:waypoint x="873.0" y="314.0"></omgdi:waypoint>
+        <omgdi:waypoint x="888.0" y="314.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow58" id="BPMNEdge_flow58">
+        <omgdi:waypoint x="908.0" y="334.0"></omgdi:waypoint>
+        <omgdi:waypoint x="909.0" y="406.0"></omgdi:waypoint>
+        <omgdi:waypoint x="948.0" y="407.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow59" id="BPMNEdge_flow59">
+        <omgdi:waypoint x="1053.0" y="314.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1087.0" y="314.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow60" id="BPMNEdge_flow60">
+        <omgdi:waypoint x="1107.0" y="294.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1107.0" y="255.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow62" id="BPMNEdge_flow62">
+        <omgdi:waypoint x="1127.0" y="314.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1172.0" y="312.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow63" id="BPMNEdge_flow63">
+        <omgdi:waypoint x="1192.0" y="292.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1191.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1258.0" y="227.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow65" id="BPMNEdge_flow65">
+        <omgdi:waypoint x="1363.0" y="311.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1408.0" y="312.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow67" id="BPMNEdge_flow67">
+        <omgdi:waypoint x="1448.0" y="312.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1478.0" y="312.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow69" id="BPMNEdge_flow69">
+        <omgdi:waypoint x="1428.0" y="292.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1428.0" y="255.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow75" id="BPMNEdge_flow75">
+        <omgdi:waypoint x="266.0" y="307.0"></omgdi:waypoint>
+        <omgdi:waypoint x="309.0" y="308.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow76" id="BPMNEdge_flow76">
+        <omgdi:waypoint x="414.0" y="308.0"></omgdi:waypoint>
+        <omgdi:waypoint x="458.0" y="307.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow77" id="BPMNEdge_flow77">
+        <omgdi:waypoint x="478.0" y="327.0"></omgdi:waypoint>
+        <omgdi:waypoint x="467.0" y="367.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="28.0" x="445.0" y="333.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow79" id="BPMNEdge_flow79">
+        <omgdi:waypoint x="563.0" y="477.0"></omgdi:waypoint>
+        <omgdi:waypoint x="535.0" y="477.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow80" id="BPMNEdge_flow80">
+        <omgdi:waypoint x="908.0" y="200.0"></omgdi:waypoint>
+        <omgdi:waypoint x="908.0" y="185.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow82" id="BPMNEdge_flow82">
+        <omgdi:waypoint x="908.0" y="128.0"></omgdi:waypoint>
+        <omgdi:waypoint x="908.0" y="95.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow83" id="BPMNEdge_flow83">
+        <omgdi:waypoint x="1107.0" y="200.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1107.0" y="156.0"></omgdi:waypoint>
+        <omgdi:waypoint x="961.0" y="156.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow85" id="BPMNEdge_flow85">
+        <omgdi:waypoint x="1428.0" y="200.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1428.0" y="156.0"></omgdi:waypoint>
+        <omgdi:waypoint x="961.0" y="156.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow86" id="BPMNEdge_flow86">
+        <omgdi:waypoint x="1583.0" y="312.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1598.0" y="314.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow87" id="BPMNEdge_flow87">
+        <omgdi:waypoint x="1650.0" y="346.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1650.0" y="367.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow88" id="BPMNEdge_flow88">
+        <omgdi:waypoint x="1192.0" y="332.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1191.0" y="429.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1343.0" y="429.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1530.0" y="429.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1530.0" y="340.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow93" id="BPMNEdge_flow93">
+        <omgdi:waypoint x="562.0" y="126.0"></omgdi:waypoint>
+        <omgdi:waypoint x="546.0" y="75.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow94" id="BPMNEdge_flow94">
+        <omgdi:waypoint x="546.0" y="75.0"></omgdi:waypoint>
+        <omgdi:waypoint x="719.0" y="200.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow98" id="BPMNEdge_flow98">
+        <omgdi:waypoint x="566.0" y="55.0"></omgdi:waypoint>
+        <omgdi:waypoint x="636.0" y="55.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow99" id="BPMNEdge_flow99">
+        <omgdi:waypoint x="688.0" y="83.0"></omgdi:waypoint>
+        <omgdi:waypoint x="908.0" y="128.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow100" id="BPMNEdge_flow100">
+        <omgdi:waypoint x="352.0" y="505.0"></omgdi:waypoint>
+        <omgdi:waypoint x="352.0" y="560.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow101" id="BPMNEdge_flow101">
+        <omgdi:waypoint x="372.0" y="580.0"></omgdi:waypoint>
+        <omgdi:waypoint x="403.0" y="569.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow102" id="BPMNEdge_flow102">
+        <omgdi:waypoint x="352.0" y="600.0"></omgdi:waypoint>
+        <omgdi:waypoint x="352.0" y="690.0"></omgdi:waypoint>
+        <omgdi:waypoint x="837.0" y="690.0"></omgdi:waypoint>
+        <omgdi:waypoint x="820.0" y="349.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow103" id="BPMNEdge_flow103">
+        <omgdi:waypoint x="455.0" y="542.0"></omgdi:waypoint>
+        <omgdi:waypoint x="615.0" y="508.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow104" id="BPMNEdge_flow104">
+        <omgdi:waypoint x="562.0" y="200.0"></omgdi:waypoint>
+        <omgdi:waypoint x="562.0" y="181.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow105" id="BPMNEdge_flow105">
+        <omgdi:waypoint x="719.0" y="255.0"></omgdi:waypoint>
+        <omgdi:waypoint x="820.0" y="280.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow106" id="BPMNEdge_flow106">
+        <omgdi:waypoint x="467.0" y="422.0"></omgdi:waypoint>
+        <omgdi:waypoint x="352.0" y="450.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow107" id="BPMNEdge_flow107">
+        <omgdi:waypoint x="1000.0" y="380.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1000.0" y="346.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow108" id="BPMNEdge_flow108">
+        <omgdi:waypoint x="1310.0" y="255.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1310.0" y="280.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
